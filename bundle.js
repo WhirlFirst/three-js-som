@@ -139,10 +139,16 @@ function initNeurons() {
     networkDimensions = Number(guiModel.map.charAt(0));
     neuronsCountSide = Math.floor(Math.pow(params.neuronsCount, 1 / networkDimensions));
     neuronsCount = Math.pow(neuronsCountSide, networkDimensions);
-
     neuronsBufferGeometry = new THREE.BufferGeometry();
     neuronsBufferGeometry.dynamic = true;
-    let neuronPositionsAttribute = new THREE.Float32BufferAttribute(new Array(3 * neuronsCount).fill(0), 3);
+    let neuronPositionsArray = [];
+    for (let i = 0; i < neuronsCount; i++) {
+        let p = sampleFromSphereVolume(.1);
+        neuronPositionsArray.push(p.x);
+        neuronPositionsArray.push(p.y);
+        neuronPositionsArray.push(p.z);
+    }
+    let neuronPositionsAttribute = new THREE.Float32BufferAttribute(neuronPositionsArray, 3);
     neuronsBufferGeometry.addAttribute('position', neuronPositionsAttribute);
     neuronPositions = neuronsBufferGeometry.attributes.position.array;
 
